@@ -5,7 +5,7 @@
 1. Run React Native
 ```npm start```
 2. Run IOS App
-``npm run ios```
+```npm run ios```
 3. Run Android App
 ```npm run android```
 
