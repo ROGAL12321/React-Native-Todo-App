@@ -1,14 +1,7 @@
 import React from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
-
-import {screenWidth} from '../helpers';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const TodoForm = ({todoText, changeTodoText, addTodo}) => (
   <View style={styles.formContainer}>
@@ -26,15 +19,15 @@ const TodoForm = ({todoText, changeTodoText, addTodo}) => (
   </View>
 );
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   formContainer: {
-    marginBottom: 80,
-    width: screenWidth - 40,
+    marginBottom: 40,
+    width: '$workableScreen',
   },
   formLabel: {
     fontFamily: 'Lato-Bold',
     color: '#BEBEBE',
-    marginVertical: 20,
+    marginBottom: 20,
   },
   formInput: {
     borderBottomWidth: 1,
@@ -46,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5786FF',
     paddingVertical: 10,
     marginTop: 20,
-    width: screenWidth - 40,
+    width: '$workableScreen',
     borderRadius: 2,
   },
   formButtonText: {

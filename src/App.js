@@ -1,116 +1,55 @@
-import React, {useState} from 'react';
-import {StyleSheet, StatusBar, View, Text, Keyboard} from 'react-native';
+import React from 'react';
+import './styles/global';
 
-import TodoList from './components/TodoList';
-import TodoForm from './components/TodoForm';
-import {screenWidth} from './helpers';
+import {Provider} from 'react-redux';
+import {NavigationContainer} from '@react-navigation/native';
+
+import store from './store';
+
+import ListScreen from './screens/List';
+import SettingsScreen from './screens/Settings';
+
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [todos, changeTodos] = useState([]);
-  const [todoText, changeTodoText] = useState('');
-  const addTodo = () => {
-    changeTodos(todos.concat(todoText));
-    changeTodoText('');
-    Keyboard.dismiss();
-  };
-
-  const deleteTodo = todo => {
-    const fitleredTodos = todos.filter(t => t !== todo);
-    changeTodos(fitleredTodos);
-  };
-
   return (
-    <View style={styles.container}>
-      <StatusBar translucent barStyle="dark-content" />
-      <Text style={styles.heading}>Todo list</Text>
-      <TodoForm
-        todoText={todoText}
-        changeTodoText={changeTodoText}
-        addTodo={addTodo}
-      />
-      <TodoList todos={todos} deleteTodo={deleteTodo} />
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({route}) => ({
+            tabBarIcon: ({focused, color, size}) => {
+              if (route.name === 'Todolist') {
+                return (
+                  <Ionicons name="md-done-all" size={size} color={color} />
+                );
+              } else if (route.name === 'Settings') {
+                return <Ionicons name="ios-list" size={size} color={color} />;
+              }
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+            tabStyle: {
+              paddingVertical: 5,
+              borderWidth: 0.5,
+              borderColor: '#BEBEBE',
+              borderStyle: 'solid',
+            },
+          }}>
+          <Tab.Screen
+            name="Todolist"
+            component={ListScreen}
+            options={{title: 'Things to do'}}
+          />
+          <Tab.Screen name="Settings" component={SettingsScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingVertical: 100,
-    alignItems: 'center',
-    backgroundColor: '#FAFAFA',
-  },
-  heading: {
-    fontFamily: 'Lato-Bold',
-    fontSize: 30,
-    marginBottom: 20,
-  },
-  formContainer: {
-    marginBottom: 80,
-    width: screenWidth - 40,
-  },
-  formLabel: {
-    fontFamily: 'Lato-Bold',
-    color: '#BEBEBE',
-    marginVertical: 20,
-  },
-  formInput: {
-    borderBottomWidth: 1,
-    borderColor: '#BEBEBE',
-    paddingBottom: 10,
-    borderStyle: 'solid',
-  },
-  formButton: {
-    backgroundColor: '#5786FF',
-    paddingVertical: 10,
-    marginTop: 20,
-    width: screenWidth - 40,
-    borderRadius: 2,
-  },
-  formButtonText: {
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    color: '#fff',
-  },
-  scrollList: {
-    flex: 1,
-  },
-  listContainer: {
-    paddingVertical: 10,
-    width: screenWidth - 40,
-  },
-  listItem: {
-    borderRadius: 5,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 10,
-    position: 'relative',
-    borderColor: '#BEBEBE',
-    borderWidth: 1,
-    padding: 10,
-  },
-  listItemImage: {
-    height: 80,
-    width: 80,
-    marginRight: 10,
-  },
-  listItemTextContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  listItemDeleteButton: {
-    backgroundColor: '#FFA1A1',
-    borderRadius: 5,
-    alignSelf: 'flex-end',
-  },
-  listItemDeleteButtonText: {
-    color: '#fff',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-  },
-});
 
 export default App;

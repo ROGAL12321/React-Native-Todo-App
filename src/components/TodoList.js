@@ -1,24 +1,18 @@
 import React from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 import cat from '../images/cat.jpg';
 
-import {screenWidth} from '../helpers';
-
-const TodoList = ({todos, deleteTodo}) => (
+const TodoList = ({todos, deleteTodo, isCatImageVisible}) => (
   <ScrollView style={styles.scrollList}>
     <View style={styles.listContainer}>
       {todos.map((todo, index) => (
         <View key={index} style={styles.listItem}>
-          <Image style={styles.listItemImage} source={cat} />
+          {isCatImageVisible && (
+            <Image style={styles.listItemImage} source={cat} />
+          )}
           <View style={styles.listItemTextContainer}>
             <Text>{todo}</Text>
             <TouchableOpacity
@@ -33,13 +27,12 @@ const TodoList = ({todos, deleteTodo}) => (
   </ScrollView>
 );
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   scrollList: {
     flex: 1,
   },
   listContainer: {
-    paddingVertical: 10,
-    width: screenWidth - 40,
+    width: '$workableScreen',
   },
   listItem: {
     borderRadius: 5,
@@ -64,7 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   listItemDeleteButton: {
-    backgroundColor: '#FFA1A1',
+    backgroundColor: '$mainAccent',
     borderRadius: 5,
     alignSelf: 'flex-end',
   },
