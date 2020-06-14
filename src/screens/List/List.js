@@ -2,15 +2,17 @@ import React, {useState} from 'react';
 import {Keyboard} from 'react-native';
 import {useSelector} from 'react-redux';
 
-import MainLayout from '../layouts/Main';
+import MainLayout from '../../layouts/Main';
 
-import TodoList from '../components/TodoList';
-import TodoForm from '../components/TodoForm';
+import TodoList from '../../components/TodoList';
+import TodoForm from '../../components/TodoForm';
 
 const Main = ({navigation}) => {
   const isCatImageVisible = useSelector(state => state.isCatImageVisible);
-  const [todos, changeTodos] = useState([]);
+  const [isModalVisible, setModalVisible] = useState(false);
   const [todoText, changeTodoText] = useState('');
+
+  const [todos, changeTodos] = useState([]);
   const addTodo = () => {
     changeTodos(todos.concat(todoText));
     changeTodoText('');
@@ -20,6 +22,7 @@ const Main = ({navigation}) => {
   const deleteTodo = todo => {
     const fitleredTodos = todos.filter(t => t !== todo);
     changeTodos(fitleredTodos);
+    setModalVisible(false);
   };
 
   return (
@@ -30,9 +33,12 @@ const Main = ({navigation}) => {
         addTodo={addTodo}
       />
       <TodoList
+        navigate={navigation.navigate}
         todos={todos}
         deleteTodo={deleteTodo}
         isCatImageVisible={isCatImageVisible}
+        isModalVisible={isModalVisible}
+        setModalVisible={setModalVisible}
       />
     </MainLayout>
   );

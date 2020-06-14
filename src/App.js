@@ -6,7 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import store from './store';
 
-import ListScreen from './screens/List';
+import ListRouter from './screens/List';
 import SettingsScreen from './screens/Settings';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -42,7 +42,7 @@ const App = () => {
           }}>
           <Tab.Screen
             name="Todolist"
-            component={ListScreen}
+            component={ListRouter}
             options={{title: 'Things to do'}}
           />
           <Tab.Screen name="Settings" component={SettingsScreen} />
